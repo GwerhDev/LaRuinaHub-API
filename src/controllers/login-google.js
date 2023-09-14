@@ -23,7 +23,7 @@ router.get('/callback', passport.authenticate('login-google', {
   failureRedirect: '/login-google/failure'
 }));
 
-router.get('/success', async (req, res) => {
+router.get('/login-google/success', async (req, res) => {
   try {
     const user = req.session.passport.user;
     const userExist = await User.findOne({ where: { email: user.email }});
