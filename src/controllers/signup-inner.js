@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
       username: user.username,
       password: user.password,
       email: user.email,
-      profilePic: user.profilePic,
+      profilePic: null,
       status: status.inactive,
       isVerified: false,
       method: methods.inner,
