@@ -37,7 +37,7 @@ router.get('/success', async (req, res) => {
     if (existingUser) {
       const errorToken = { error: true, isExpert: false, msg: message.signup.existinguser }
       const token = await createToken(errorToken, 3);
-      return res.status(200).redirect(`${clientUrl}/#/register?token=${token}`);
+      return res.status(200).redirect(`${clientUrl}/#/register/form?token=${token}`);
     }
 
     const userData = {
@@ -62,7 +62,7 @@ router.get('/success', async (req, res) => {
     
     const token = await createToken(tokenData, 3);
 
-    return res.status(200).redirect(`${clientUrl}/#/register?token=${token}`);
+    return res.status(200).redirect(`${clientUrl}/#/register/form?token=${token}`);
 
   } catch (error) {
     return res.send(error);
