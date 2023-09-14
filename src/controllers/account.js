@@ -21,11 +21,8 @@ router.patch("/update/:id", async (req, res) => {
     
     if(body?.password) await bcrypt.hash(body.password, salt);
     
-    await User.update(body, {
-      where: { id }
-    });
+    await User.update(body, { where: { id } });
     
-
     return res.status(200).json({ message: message.admin.updateuser.success });
   } catch (error) {
     return res.status(500).send({ error : message.admin.updateuser.error });
