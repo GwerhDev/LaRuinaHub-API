@@ -25,11 +25,11 @@ router.get('/callback', passport.authenticate('signup-google', {
   failureRedirect: '/signup-google/failure'
 }));
 
-router.get('/signup-google/failure', (req, res) => {
+router.get('/failure', (req, res) => {
   return res.status(400).redirect(`${clientUrl}/#/register/failed`);
 });
 
-router.get('/signup-google/success', async (req, res) => {
+router.get('/success', async (req, res) => {
   try {
     const user = req.session.passport.user;
     const existingUser = await User.findOne({ where: { email: user.email }});
