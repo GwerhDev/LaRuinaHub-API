@@ -39,7 +39,7 @@ router.get('/success', async (req, res) => {
         role: existingUser.role,
       };
       const token = await createToken(tokenData, 3);
-      return res.status(200).redirect(`${clientUrl}/#/account/settings?token=${token}`);
+      return res.status(200).redirect(`${clientUrl}/#/account/settings/${token}`);
     }
 
     const userData = {
@@ -64,7 +64,7 @@ router.get('/success', async (req, res) => {
     
     const token = await createToken(tokenData, 3);
 
-    return res.status(200).redirect(`${clientUrl}/#/account/settings?token=${token}`);
+    return res.status(200).redirect(`${clientUrl}/#/account/settings/${token}`);
 
   } catch (error) {
     return res.send(error);
