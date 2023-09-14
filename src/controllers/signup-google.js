@@ -3,7 +3,6 @@ const router = express.Router();
 const passport = require("passport");
 const { User } = require("../models/User");
 const { signupGoogle } = require("../integrations/google");
-const { message } = require("../messages");
 const { createToken } = require("../integrations/jwt");
 const { clientUrl, defaultPassword } = require("../config");
 const { status, methods, roles } = require("../misc/consts-user-model");
@@ -35,9 +34,12 @@ router.get('/success', async (req, res) => {
     const existingUser = await User.findOne({ where: { email: user.email }});
 
     if (existingUser) {
-      const errorToken = { error: true, isExpert: false, msg: message.signup.existinguser }
-      const token = await createToken(errorToken, 3);
-      return res.status(200).redirect(`${clientUrl}/#/register/form?token=${token}`);
+      const tokenData = {
+        id: existingUser.id,
+        role: existingUser.role,
+      };
+      const token = await createToken(tokenData, 3);
+      return res.status(200).redirect(`${clientUrl}/#/account/settings?token=${token}`);
     }
 
     const userData = {
@@ -62,7 +64,7 @@ router.get('/success', async (req, res) => {
     
     const token = await createToken(tokenData, 3);
 
-    return res.status(200).redirect(`${clientUrl}/#/register/form?token=${token}`);
+    return res.status(200).redirect(`${clientUrl}/#/account/settings?token=${token}`);
 
   } catch (error) {
     return res.send(error);

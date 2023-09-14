@@ -4,21 +4,29 @@ const { User } = require("../models/User");
 const bcrypt = require("bcrypt");
 const { message } = require("../messages");
 const { status, roles, methods } = require("../misc/consts-user-model");
+const { createToken } = require("../integrations/jwt");
 
 router.post('/', async (req, res) => {
   try {
-    const user = req.body;
-    const existingUser = await User.findOne({ where: { email: user.email } });
+    const { username, password, email  } = req.body;
+
+    if(!username || !password || !email) return res.status(400).send({ error: message.signup.error });
+
+    const existingUser = await User.findOne({ where: { email: email } });
     
     if(existingUser) {
-      const errorToken = { error: message.signup.existinguser };
-      return res.status(200).send({errorToken});
+      const tokenData = {
+        id: existingUser.id,
+        role: existingUser.role,
+      };
+      const token = await createToken(tokenData, 3);
+      return res.status(200).send({token});
     };
     
     const userData = {
-      username: user.username,
-      password: user.password,
-      email: user.email,
+      username,
+      password,
+      email,
       profilePic: null,
       status: status.inactive,
       isVerified: false,
@@ -29,13 +37,20 @@ router.post('/', async (req, res) => {
     };
 
     const salt = await bcrypt.genSalt();
-    userData.password = await bcrypt.hash(user.password, salt);
+    userData.password = await bcrypt.hash(password, salt);
     
-    await User.create(userData);
-    return res.status(200).send({msg: message.signup.success});
+    const userCreated = await User.create(userData);
+
+    const tokenData = {
+      id: userCreated.id,
+      role: userCreated.role,
+    };
+    const token = await createToken(tokenData, 3);
+
+    return res.status(200).send({ msg: message.signup.success, token });
 
   } catch (error) {
-    return res.status(400).send({error: message.signup.error});
+    return res.status(400).send({ error: message.signup.error });
   };
 });
 
