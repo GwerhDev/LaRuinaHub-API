@@ -4,7 +4,7 @@ const passport = require("passport");
 const { User } = require("../models/User");
 const { signupGoogle } = require("../integrations/google");
 const { createToken } = require("../integrations/jwt");
-const { clientUrl, defaultPassword } = require("../config");
+const { clientUrl, defaultPassword, defaultUsername } = require("../config");
 const { status, methods, roles } = require("../misc/consts-user-model");
 
 passport.use('signup-google', signupGoogle);
