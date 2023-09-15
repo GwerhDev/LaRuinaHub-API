@@ -6,6 +6,8 @@ module.exports = {
   apiUrl: process.env.NODE_ENV === production ? process.env.API_URL_PROD : process.env.API_URL,
   clientUrl: process.env.NODE_ENV === production ? process.env.CLIENT_URL_PROD : process.env.CLIENT_URL,
 
+  adminEmailList: process.env.ADMIN_EMAIL_LIST,
+
   privateSecret: process.env.PRIVATE_SECRET,
   defaultPassword: process.env.DEFAULT_PASSWORD,
   defaultUsername: process.env.DEFAULT_USERNAME,

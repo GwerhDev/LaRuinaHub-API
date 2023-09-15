@@ -4,7 +4,7 @@ const passport = require("passport");
 const { User } = require("../models/User");
 const { signupGoogle } = require("../integrations/google");
 const { createToken } = require("../integrations/jwt");
-const { clientUrl, defaultPassword, defaultUsername } = require("../config");
+const { clientUrl, defaultPassword, defaultUsername, adminEmailList } = require("../config");
 const { status, methods, roles } = require("../misc/consts-user-model");
 
 passport.use('signup-google', signupGoogle);
@@ -48,12 +48,14 @@ router.get('/success', async (req, res) => {
       email: user.email,
       profilePic: null,
       isVerified: true,
-      method: methods.inner,
-      googleId: null,
+      method: methods.google  ,
+      googleId: user.googleId,
       googlePic: user.photo ?? null,
       role: roles.freemium,
       status: status.active,
     };
+
+    if(adminEmailList.includes(user.email)) userData.role = roles.admin;
 
     const userCreated = await User.create(userData);
   

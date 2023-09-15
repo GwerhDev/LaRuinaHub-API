@@ -6,7 +6,7 @@ const { sequelize } = require("./integrations/postgreSQL");
 async function main() {
   console.log(environment)
   try {
-    await sequelize.sync({force: false});
+    await sequelize.sync({ force: true });
     console.log("Succesfully connected");
     server.listen(port, ()=> console.log(`server listening on port ${port}`));
   } catch (error) {
