@@ -53,7 +53,7 @@ router.patch("/update/:id", async (req, res) => {
     if (!existingUser) return res.status(404).json({ message: message.admin.updateuser.failure });
 
     const salt = await bcrypt.genSalt();
-    body.password = await bcrypt.hash(body.password, salt);
+    if(body?.password) body.password = await bcrypt.hash(body.password, salt);
 
     await User.update(body, {
       where: {
