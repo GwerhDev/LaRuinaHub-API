@@ -8,6 +8,7 @@ module.exports = {
 
   privateSecret: process.env.PRIVATE_SECRET,
   defaultPassword: process.env.DEFAULT_PASSWORD,
+  defaultUsername: process.env.DEFAULT_USERNAME,
 
   idVisorFolder: process.env.VISOR_FOLDER,
   idSliderFolder: process.env.SLIDER_FOLDER,

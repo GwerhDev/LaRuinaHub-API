@@ -43,7 +43,7 @@ router.get('/success', async (req, res) => {
     }
 
     const userData = {
-      username: user.username,
+      username: user.username?? defaultUsername,
       password: defaultPassword,
       email: user.email,
       profilePic: null,
