@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 
 router.patch("/update/:id", async (req, res) => {
   const { id } = req.params;
-  console.log(id)
   const { body } = req;
   const userToken = req.headers.authorization;
   if(!userToken) return res.status(403).json({ message: message.admin.permissionDenied });
