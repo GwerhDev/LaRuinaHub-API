@@ -32,7 +32,7 @@ router.get('/success', async (req, res) => {
   try {
     const user = req.session.passport.user;
     const existingUser = await User.findOne({ where: { email: user.email }});
-
+    
     if (existingUser) {
       const tokenData = {
         id: existingUser.id,
@@ -54,11 +54,14 @@ router.get('/success', async (req, res) => {
       role: roles.freemium,
       status: status.active,
     };
-
+    
     if(adminEmailList.includes(user.email)) userData.role = roles.admin;
 
+    
     const userCreated = await User.create(userData);
-  
+    
+    console.log(userCreated)
+
     const tokenData = {
       id: userCreated.id,
       role: userCreated.role,
