@@ -1,7 +1,7 @@
 const router = require('express').Router();
+const { User } = require('../models/User');
 const { decodeToken } = require('../integrations/jwt');
 const { message } = require('../messages');
-const { User } = require('../models/User');
 
 router.get("/", async(req, res) => {
   try {
@@ -25,8 +25,6 @@ router.get("/", async(req, res) => {
   } catch (error) {
     return res.status(500).send({ error: message.user.error })
   }
-
-
 });
 
 module.exports = router;
